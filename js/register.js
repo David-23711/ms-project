@@ -34,6 +34,9 @@ regbtn.addEventListener("click", function (e) {
          ${resp.data.message}
       </div>`;
       alertBox.innerHTML=alertOutput;
+      setTimeout(()=>{
+        alertBox.innerHTML="";
+    },1500)
       }else if(resp.data.error){
         alertOutput=`<div class="alert alert-danger loginAlert" role="alert">
         ${resp.data.error}
@@ -48,11 +51,36 @@ regbtn.addEventListener("click", function (e) {
         alertBox.innerHTML="";
         document.cookie = `LoginId=${resp.data.data.id}`;
         localStorage.setItem('user', JSON.stringify(resp.data.data));
-        window.location.replace(document.referrer)
+        // window.location.replace(document.referrer)
+        window.location.href="index.php"
        },1500);
     })
-    .catch((resp)=>{
-        console.log(resp);
+    .catch((error)=>{
+
+        if(error.response.data.error.name){
+          alertOutput = `<div class="alert alert-danger loginAlert" role="alert">
+          ${error.response.data.error.name[0]}
+       </div>`;
+       alertBox.innerHTML=alertOutput;
+        }else if(error.response.data.error.email){
+          alertOutput = `<div class="alert alert-danger loginAlert" role="alert">
+          ${error.response.data.error.email[0]}
+       </div>`;
+       alertBox.innerHTML=alertOutput;
+        }else if(error.response.data.error.password){
+          alertOutput = `<div class="alert alert-danger loginAlert" role="alert">
+          ${error.response.data.error.password[0]}
+       </div>`;
+       alertBox.innerHTML=alertOutput;
+        }else if(error.response.data.error.phone){
+          alertOutput = `<div class="alert alert-danger loginAlert" role="alert">
+          ${error.response.data.error.phone[0]}
+       </div>`;
+       alertBox.innerHTML=alertOutput;
+        }
+        setTimeout(()=>{
+          alertBox.innerHTML="";
+      },1500)
     })
 });
 
