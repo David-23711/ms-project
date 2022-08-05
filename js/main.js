@@ -12,8 +12,14 @@ const fetchManga = (search) => {
       totalrecord = response.data.total;
       displayPagination(totalrecord);
       let output = "";
-
-      datas.map((i) => {
+      if(datas.length==0){
+        output+=`<div class="col-md-6 offset-md-3 p-2" align="center">
+            <div style="width:100%;height:100%" >
+               <h4>Result not found!</h4>
+            </div>
+        </div>`
+      }else{
+        datas.map((i) => {
         output += `<div class="col-12 col-md-6 col-sm-6 col-lg-4 p-2">
             <div class="card" style="width: 100%;height:100%">
                 <div class="card-body">
@@ -63,10 +69,83 @@ const fetchManga = (search) => {
             </div>
         </div>`;
       });
+      }
+      
       document.querySelector(".row").innerHTML = output;
     })
     .catch((error) => console.error(error));
 };
+const searchManga=(search)=>{
+  axios
+  .get(`${baseUrl}/admin/fetchingMangaByName?page=${page}&searchName=${search}`)
+  .then((response) => {
+    let datas = response.data.data;
+    totalrecord = response.data.total;
+    displayPagination(totalrecord);
+    let output = "";
+    if(datas.length==0){
+      output+=`<div class="col-md-6 offset-md-3 p-2" align="center">
+          <div style="width:100%;height:100%" >
+             <h4>Result not found!</h4>
+          </div>
+      </div>`
+    }else{
+      datas.map((i) => {
+      output += `<div class="col-12 col-md-6 col-sm-6 col-lg-4 p-2">
+          <div class="card" style="width: 100%;height:100%">
+              <div class="card-body">
+              <div class="rowContainer" >
+                  <div class="row">
+                     <div class="col-md-5">
+                     <img class=" imageSize" src="${
+                       i?.thumbnail_path
+                         ? i?.thumbnail_path
+                         : "../images/nofound.png"
+                     }"  />
+                 </div>
+                 <div class="col-md-7">
+                     <ul class="list-group ">
+                         <li class="list-group-item d-flex justify-content-between align-items-start">
+                             <div class="ms-2 me-auto">
+                                 <div class="fw-bold">Manga Name</div>
+                                 ${i?.name}
+                             </div>
+
+                         </li>
+                         <li class="list-group-item d-flex justify-content-between align-items-start">
+                             <div class="ms-2 me-auto">
+                                 <div class="fw-bold">Author Name</div>
+                                 ${i?.author_name}
+                             </div>
+
+                         </li>
+                         <li class="list-group-item d-flex justify-content-between align-items-start">
+                             <div class="ms-2 me-auto">
+                                 <div class="fw-bold">Release Date</div>
+                                 ${i?.release_date}
+                             </div>
+
+                         </li>
+                     </ul>
+                     </div>
+                     </div>
+                  </div>
+
+              </div>
+              <div class="card-body">
+              <div class="d-grid col-12 mx-auto">
+              <a href="detail.php?id=${i?.id}" class="btn btn-primary" type="button" style="font-size:20px" >READ</a>
+            </div>
+              </div>
+          </div>
+      </div>`;
+    });
+    }
+    
+    document.querySelector(".row").innerHTML = output;
+  })
+  .catch((error) => console.error(error));
+}
 const getGenres = () => {
   axios
     .get(`${baseUrl}/admin/fetchingGenre`)
@@ -134,7 +213,14 @@ const fetchMangaByGenreId = () => {
         .get(`${baseUrl}/admin/fetchingMangaByGenreId/${id}`)
         .then((resp) => {
           let output = "";
-          resp.data.map((i) => {
+          if(resp.data.length==0){
+            output+=`<div class="col-md-6 offset-md-3 p-2" align="center">
+            <div style="width:100%;height:100%" >
+               <h4>Result not found!</h4>
+            </div>
+        </div>`
+          }else{
+              resp.data.map((i) => {
             output += `<div class="col-12 col-md-6 col-sm-6 col-lg-4 p-2">
             <div class="card" style="width: 100%;">
                 <div class="card-body">
@@ -181,6 +267,8 @@ const fetchMangaByGenreId = () => {
             </div>
         </div>`;
           });
+          }
+        
           document.getElementById(`${id}`).innerHTML = output;
         });
     });
@@ -190,8 +278,10 @@ searchBtn.addEventListener("click", function (event) {
   let searchValue = document.getElementById("search").value;
   event.preventDefault();
   page = 1;
-  fetchManga(searchValue);
+  searchManga(searchValue)
+  // fetchManga(searchValue);
 });
 
 getGenres();
 fetchManga();
+// fetchMangaByName

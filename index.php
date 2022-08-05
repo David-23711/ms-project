@@ -12,29 +12,34 @@
 <style>
     .imageSize {
         width: 100%;
-       height: 209px;
+        height: 209px;
         border-radius: 5px;
     }
+
     @media only screen and (max-width:580px) {
         .imageSize {
             height: 100%;
             max-height: 550px;
         }
     }
+
+    .setHeight {
+        height: 100vh !important;
+    }
 </style>
 
 <body class="d-flex flex-column min-vh-100">
     <div>
-       <div>
-       <?php include 'header.php' ?>
-       </div>
+        <div>
+            <?php include 'header.php' ?>
+        </div>
         <div class="container pt-3 mainContainer">
             <ul class="nav nav-tabs genre " id="myTab" role="tablist">
                 <!-- fetch all genre -->
                 <li class="nav-item" id="home-li" role="presentation">
                     <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Latest</button>
                 </li>
-                
+
                 <!---- --->
             </ul>
             <div class="tab-content" id="myTabContent">
@@ -44,14 +49,14 @@
                             <form class="d-flex" role="search">
                                 <input class="form-control me-2" id="search" value="" type="search" placeholder="Search" aria-label="Search">
                                 <button class="btn btn-outline-primary" id="searchBtn" type="submit">
-                                <span class="mt-2"> <i class="fas fa-search"></i> </span>
+                                    <span class="mt-2"> <i class="fas fa-search"></i> </span>
                                 </button>
                             </form>
                         </div>
                     </div>
                     <div class="card mt-3">
                         <div class="card-body">
-                            <div class="row">
+                            <div class="row ">
                                 <!-- fetch card data here with axios -->
                             </div>
                         </div>
@@ -61,7 +66,7 @@
 
                             <nav aria-label="Page navigation example">
                                 <ul class="pagination pagination-md">
-                                <!-- pagination goes here -->
+                                    <!-- pagination goes here -->
                                 </ul>
                             </nav>
                         </div>
@@ -75,7 +80,6 @@
     <?php include 'footer.php' ?>
 </footer>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
-<!-- <script src="./node_modules/axios/dist/axios.min.js"></script> -->
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script type="text/javascript" src="./js/main.js"></script>
 

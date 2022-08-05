@@ -118,7 +118,7 @@
                         </button>
                         <div class="signup">
                             Don't have an account?
-                            <a href="#">Create One</a>
+                            <a href="register.php">Create One</a>
                         </div>
                     </form>
                 </div>
